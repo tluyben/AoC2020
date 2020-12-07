@@ -53,8 +53,8 @@ fn valid_password(rule: &Rule, pw: &String) -> bool {
 
 fn valid_password2(rule: &Rule, pw: &String) -> bool {
 
-    return (pw.chars().nth((rule.min-1) as usize).unwrap() == rule.c)
-            ^ (pw.chars().nth((rule.max-1) as usize).unwrap() == rule.c)
+    return (pw.as_bytes()[((rule.min-1) as usize)] as char == rule.c)
+            ^ (pw.as_bytes()[((rule.max-1) as usize)] as char == rule.c)
             ;
 }
     
