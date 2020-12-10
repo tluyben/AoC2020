@@ -6,6 +6,6 @@
 
 (define input (kwic-read "1.txt"))
 
-(apply * (filter (lambda (y) (member y
-     (map (lambda (x) (- 2020 x))
+(apply * (filter (λ (y) (member y
+     (map (λ (x) (- 2020 x))
           input))) input))
