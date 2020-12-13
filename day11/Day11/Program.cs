@@ -157,13 +157,128 @@ namespace Day11
             Console.WriteLine($"Day 11/2 solution: {CountOccupied(input)}");
         }
 
+        static int[][] cmp(char[][] input, char c)
+        {
+            return input.Select(l=>l.Select(c1=>c1==c?1:0).ToArray()).ToArray(); 
+        }
+        static int[][] cmp(int[][] input, int c)
+        {
+            return input.Select(l=>l.Select(c1=>c1==c?1:0).ToArray()).ToArray(); 
+        }
+        static void p(char[][] input)
+        {
+            for(var y=0;y<input.Length;y++)
+                Console.WriteLine(string.Join(" ", input[y]));
+        }
+        static void p(int[][] input)
+        {
+            for(var y=0;y<input.Length;y++)
+                Console.WriteLine(string.Join(" ", input[y]));
+        }
+
+        static int[][] not(int[][] input)
+        {
+            return input.Select(l=>l.Select(c1=>c1==0?1:0).ToArray()).ToArray(); 
+        }       
+
+        static int[][] enlist(int[][] input, int row)
+        {
+            return enlist(input, new int[] {row}); 
+        }
+
+        static int[][] enlist(int[][] input, int[] row) 
+        {
+            var l = input.ToList(); 
+            if (input.Length>0) 
+            {
+                var ll = input[0].Length; 
+                if (row.Length!=ll)
+                {
+                    var _row = row.ToList(); 
+                    if (row.Length<ll) for(int i=0;i<ll-row.Length;i++)
+                        _row.Add(0);
+                    if (row.Length>ll) for (int i=0;i<row.Length-ll;i++)
+                        _row.RemoveAt(row.Length-i);
+
+                    row = _row.ToArray(); 
+                }
+               
+            }
+            l.Add(row);
+
+            return l.ToArray();  
+        }
+
+        static int[][] drop(int[][] input, int amount)
+        {
+            var l = input.ToList(); 
+            for(int i=0;i<amount;i++)
+            {
+                l.RemoveAt(0);
+            }
+            return l.ToArray(); 
+        }
+
+        static int[][] flip(int [][] input)
+        {
+            var l = new List<List<int>>(); 
+            for(int y=0;y<input.Length;y++)
+            {
+
+                for (int x=0;x<input[y].Length;x++)
+                {
+                    if (l.Count-1<x)
+                        l.Add(new List<int>());
+
+                    l[x].Add(input[y][x]); 
+                }
+            }   
+            return l.Select(l=>l.Select(l1=>l1).ToArray()).ToArray();         
+        }
+
+        static int[][] plus(int [][] input, int[][] add)
+        {
+            var cx =0;
+            var cy =0; 
+            for(int y=0;y<input.Length;y++)
+            {
+                
+                for (int x=0;x<input[y].Length;x++)
+                {
+                    input[y][x] += add[cy][cx];
+
+                    cx++;
+                    if (cx>=add[cy].Length) cx = 0; 
+                }
+
+                cy++; 
+                if (cy>=add.Length) cy = 0 ; 
+
+            }
+            return input;
+        }
+
+        static int[][] eachr(int [][] input, Func<int[][], int[][]> f, int n = 1)
+        {
+            
+        }
+
 
         static void Main(string[] args)
         {
-            var input = File.ReadAllText("../1.txt").Split("\n").Select(l=>l.ToArray()).ToArray(); 
+            var input = File.ReadAllText("../ex1.txt").Trim().Split("\n").Select(l=>l.ToArray()).ToArray(); 
 
             P1(input); 
             P2(input);
+
+            var l = cmp(input, '#'); 
+            var f = not(cmp(input, '.'));
+
+            p(plus(l, flip(drop(enlist(l,0), 1))));
+
+            Console.WriteLine("\n\n");
+            p(flip(drop(enlist(not(cmp(input, '.')), 0), 1)));
+
         }
     }
 }
