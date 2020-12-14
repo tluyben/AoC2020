@@ -34,7 +34,7 @@
 (define (map-questions m c)
   (map (λ (x)
          (if (= x c) 1 0))
-         (my-flatten (hash-values m))))
+         (hash-values m)))
 
 (define (all-questions m c)
   (apply + (map-questions m c)))
