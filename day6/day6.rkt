@@ -34,7 +34,7 @@
 (define (map-questions m c)
   (map (λ (x)
          (if (= x c) 1 0))
-         (my-flatten (hash-values m))))
+         (hash-values m)))
 
 (define (all-questions m c)
   (apply + (map-questions m c)))
@@ -42,16 +42,14 @@
 (define tot 0)
 (define count2 0)
 (define clist2 (map (λ (l m)
+                     (if (= m 0)
+                         (car (cdr (list
+                               (set! tot (all-questions mem count))
+                               tot
+                               (set! count 0)
+                               (hash-clear! mem))))
+                         (car (list 0 (set! count (+ count 1)) (lm2 l)))))
 
-
-                     (if (= m 0) (set! tot (all-questions mem count)) 0)
-
-                     (if (> m 0) (list (set! count (+ count 1)) (lm2 l)) 0)
-                     (if (= m 0) (list (set! count 0) (hash-clear! mem)) 0)
-
-                     (if (= m 0) tot 0)
-                     
-                     )
                    cs mask))
 
 (apply + (my-flatten clist))
