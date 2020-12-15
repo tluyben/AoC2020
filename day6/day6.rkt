@@ -38,16 +38,13 @@
 
 (define (all-questions m c)
   (apply + (map-questions m c)))
-  
-(define tot 0)
-(define count2 0)
+
 (define clist2 (map (λ (l m)
                      (if (= m 0)
-                         (car (cdr (list
-                               (set! tot (all-questions mem count))
-                               tot
+                         (car (list
+                               (all-questions mem count)
                                (set! count 0)
-                               (hash-clear! mem))))
+                               (hash-clear! mem)))
                          (car (list 0 (set! count (+ count 1)) (lm2 l)))))
 
                    cs mask))
